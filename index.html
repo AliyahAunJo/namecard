@@ -5,7 +5,7 @@
       This is an HTML comment
       You can write text in a comment and the content won't be visible in the page
     -->
-            <script
+    <script
       charset="utf-8"
       src="https://static.line-scdn.net/liff/edge/2/sdk.js"
     ></script>
@@ -144,11 +144,68 @@
         border-radius: 6px;
         z-index: 80;
       }
+
+      /* CSS */
+      .button-30 {
+        align-items: center;
+        appearance: none;
+        background-color: #eeeeee;
+        border-radius: 4px;
+        border-width: 0;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+        box-sizing: border-box;
+        color: #36395a;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: "JetBrains Mono", monospace;
+        height: 48px;
+        justify-content: center;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 16px;
+        padding-right: 16px;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transition: box-shadow 0.15s, transform 0.15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow, transform;
+        font-size: 18px;
+      }
+
+      .button-30:focus {
+        box-shadow: #dedede 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
+      }
+
+      .button-30:hover {
+        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
+        transform: translateY(-2px);
+      }
+
+      .button-30:active {
+        box-shadow: #dedede 0 3px 7px inset;
+        transform: translateY(2px);
+      }
+      
+      .img-circle {
+      border-radius: 50px;
+    }
     </style>
   </head>
   <body>
     <center>
-      <h2>คุณแชร์นามบัตรสำเร็จ !</h2>
+      <h1>ยินดีต้อนรับผู้ใช้งาน</h1>
+      <img id="imageuser" class="img-circle mb-2 mt-3" alt="Cinque Terre" width="70" height="70" />
+      <div class="mb-2" id="idUser"></div>
+      <h3 class="mt-3 mb-3" id="nameUser"></h3>
+      <h2 id="textshow1">แชร์ให้เพื่อนหรือกลุ่ม !</h2>
       <div class="container">
         <span class="line" style="--i: 1"></span>
         <span class="line" style="--i: 2"></span>
@@ -214,23 +271,60 @@
         <div class="min"></div>
         <div class="hr"></div>
       </div>
-     
+
       <!--       <button
         class="btn btn-info" id="closeweb"
       >
         ปิดหน้านี้
       </button> -->
+      <!-- HTML !-->
+      <button id="sharebtn" class="button-30 mt-3" role="button">
+        แชร์นามบัตร
+      </button>
     </center>
 
     <script>
+      $("#sharebtn").click(() => {
+        shareTarget();
+      });
+
       $(document).ready(() => {
-        liff.init({
-          liffId: "2000563749-2q45yrXp",
-          withLoginOnExternalBrowser: true,
-        });
-        liff.ready.then(() => {
-          if (liff.isApiAvailable("shareTargetPicker")) {
-            liff.shareTargetPicker([
+        liff
+          .init({
+            liffId: "2000563749-2q45yrXp",
+            withLoginOnExternalBrowser: true,
+          })
+          .then(() => {
+            if (!liff.isLoggedIn()) {
+              liff.login();
+            } else {
+              liff
+                .getProfile()
+                .then((profile) => {
+                  const userName = profile.displayName;
+                  const userId = profile.userId;
+                  document.getElementById("nameUser").innerHTML = userName;
+                  document.getElementById("idUser").innerHTML = userId;
+                  document.getElementById("imageuser").src = profile.pictureUrl;
+                  // var img = document.createElement("img");
+                  // var src = document.getElementById("imageUser");
+                  // img.src = imageUser
+                  // src.setAttribute("width", 25);
+                  // src.setAttribute("height", 25);
+                  // src.appendChild(img);
+                })
+                .catch((err) => {
+                  console.log("error", err);
+                });
+            }
+            // console.log(idToken); // print decoded idToken object
+          });
+      });
+
+      function shareTarget() {
+        if (liff.isApiAvailable("shareTargetPicker")) {
+          liff
+            .shareTargetPicker([
               {
                 type: "flex",
                 altText: "this is a flex message",
@@ -461,10 +555,33 @@
                   ],
                 },
               },
-            ]);
-          }
-        });
-      });
+            ])
+            .then(function (res) {
+              if (res) {
+                // succeeded in sending a message through TargetPicker
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "คุณแชร์นามบัตรสำเร็จ..",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                setTimeout(closeLiff, 5000);
+              } else {
+                // sending message canceled
+                console.log("TargetPicker was closed!");
+              }
+            })
+            .catch(function (error) {
+              // something went wrong before sending a message
+              console.log("something wrong happen");
+            });
+        }
+      }
+
+      function closeLiff() {
+        liff.closeWindow();
+      }
 
       const allLine = document.querySelectorAll(".line");
       const second = document.querySelector(".sec");
@@ -501,6 +618,7 @@
         hours.style.transform = `rotateZ(${hrRot}deg)`;
       }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

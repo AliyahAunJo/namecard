@@ -26,183 +26,204 @@
       crossorigin="anonymous"
     />
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+              font-family: "Poppins", sans-serif;
+            }
 
-      body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #eee;
-      }
+            body {
+              min-height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: #eee;
+            }
 
-      .container {
-        width: 280px;
-        height: 280px;
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
-          -10px -10px 20px rgba(255, 255, 255, 0.8),
-          inset 10px 10px 20px rgba(0, 0, 0, 0.1),
-          inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+            .container {
+              width: 280px;
+              height: 280px;
+              box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+                -10px -10px 20px rgba(255, 255, 255, 0.8),
+                inset 10px 10px 20px rgba(0, 0, 0, 0.1),
+                inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+              border-radius: 50%;
+              border: 10px solid #eee;
+              position: relative;
+            }
+            .container::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 14px;
+              height: 14px;
+              z-index: 110;
+              border: 2px solid #eee;
+              background: royalblue;
+              border-radius: 50%;
+            }
+            .line {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              transform: rotateZ(calc((360deg / 60) * var(--i)));
+            }
+            .line::before {
+              content: "";
+              position: absolute;
+              top: 10px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 2px;
+              height: 2px;
+              background: #aaa;
+            }
+            .line:nth-child(5n)::before {
+              height: 10px;
+              background: #444;
+            }
+            .line::after {
+              content: attr(data-num);
+              position: absolute;
+              top: 20px;
+              left: 50%;
+              transform: translateX(-50%) rotateZ(calc((360deg / 60) * var(--i) * -1));
+              color: #444;
+              font-size: 18px;
+              font-weight: 500;
+            }
+            .sec,
+            .min,
+            .hr {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+            }
+            .sec::before {
+              content: "";
+              position: absolute;
+              top: 30px;
+              bottom: 50%;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 2px;
+              background: royalblue;
+              border-radius: 6px;
+              z-index: 100;
+            }
+            .min::before {
+              content: "";
+              position: absolute;
+              top: 50px;
+              bottom: 50%;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 4px;
+              background: #444;
+              border-radius: 6px;
+              z-index: 90;
+            }
+            .hr::before {
+              content: "";
+              position: absolute;
+              top: 70px;
+              bottom: 50%;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 6px;
+              background: #444;
+              border-radius: 6px;
+              z-index: 80;
+            }
+
+            /* CSS */
+            .button-30 {
+              align-items: center;
+              appearance: none;
+              background-color: #eeeeee;
+              border-radius: 4px;
+              border-width: 0;
+              box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+                rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+              box-sizing: border-box;
+              color: #36395a;
+              cursor: pointer;
+              display: inline-flex;
+              font-family: "JetBrains Mono", monospace;
+              height: 48px;
+              justify-content: center;
+              line-height: 1;
+              list-style: none;
+              overflow: hidden;
+              padding-left: 16px;
+              padding-right: 16px;
+              position: relative;
+              text-align: left;
+              text-decoration: none;
+              transition: box-shadow 0.15s, transform 0.15s;
+              user-select: none;
+              -webkit-user-select: none;
+              touch-action: manipulation;
+              white-space: nowrap;
+              will-change: box-shadow, transform;
+              font-size: 18px;
+            }
+
+            .button-30:focus {
+              box-shadow: #dedede 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+                rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
+            }
+
+            .button-30:hover {
+              box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+                rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
+              transform: translateY(-2px);
+            }
+
+            .button-30:active {
+              box-shadow: #dedede 0 3px 7px inset;
+              transform: translateY(2px);
+            }
+
+            .img-circle {
+            border-radius: 50px;
+          }
+
+            /* HTML: <div class="loader"></div> */
+      .loader {
+        width: 50px;
+        aspect-ratio: 1;
         border-radius: 50%;
-        border: 10px solid #eee;
-        position: relative;
+        border: 8px solid lightblue;
+        border-right-color: orange;
+        animation: l2 1s infinite linear;
       }
-      .container::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 14px;
-        height: 14px;
-        z-index: 110;
-        border: 2px solid #eee;
-        background: royalblue;
-        border-radius: 50%;
-      }
-      .line {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        transform: rotateZ(calc((360deg / 60) * var(--i)));
-      }
-      .line::before {
-        content: "";
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 2px;
-        height: 2px;
-        background: #aaa;
-      }
-      .line:nth-child(5n)::before {
-        height: 10px;
-        background: #444;
-      }
-      .line::after {
-        content: attr(data-num);
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%) rotateZ(calc((360deg / 60) * var(--i) * -1));
-        color: #444;
-        font-size: 18px;
-        font-weight: 500;
-      }
-      .sec,
-      .min,
-      .hr {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-      }
-      .sec::before {
-        content: "";
-        position: absolute;
-        top: 30px;
-        bottom: 50%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 2px;
-        background: royalblue;
-        border-radius: 6px;
-        z-index: 100;
-      }
-      .min::before {
-        content: "";
-        position: absolute;
-        top: 50px;
-        bottom: 50%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        background: #444;
-        border-radius: 6px;
-        z-index: 90;
-      }
-      .hr::before {
-        content: "";
-        position: absolute;
-        top: 70px;
-        bottom: 50%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 6px;
-        background: #444;
-        border-radius: 6px;
-        z-index: 80;
-      }
-
-      /* CSS */
-      .button-30 {
-        align-items: center;
-        appearance: none;
-        background-color: #eeeeee;
-        border-radius: 4px;
-        border-width: 0;
-        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
-          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
-        box-sizing: border-box;
-        color: #36395a;
-        cursor: pointer;
-        display: inline-flex;
-        font-family: "JetBrains Mono", monospace;
-        height: 48px;
-        justify-content: center;
-        line-height: 1;
-        list-style: none;
-        overflow: hidden;
-        padding-left: 16px;
-        padding-right: 16px;
-        position: relative;
-        text-align: left;
-        text-decoration: none;
-        transition: box-shadow 0.15s, transform 0.15s;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        white-space: nowrap;
-        will-change: box-shadow, transform;
-        font-size: 18px;
-      }
-
-      .button-30:focus {
-        box-shadow: #dedede 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
-          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
-      }
-
-      .button-30:hover {
-        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
-          rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #dedede 0 -3px 0 inset;
-        transform: translateY(-2px);
-      }
-
-      .button-30:active {
-        box-shadow: #dedede 0 3px 7px inset;
-        transform: translateY(2px);
-      }
-      
-      .img-circle {
-      border-radius: 50px;
-    }
+      @keyframes l2 {to{transform: rotate(1turn)}}Ï
     </style>
   </head>
   <body>
-    <center>
+    <center class="load">
+      <div class="loader"></div>
+    </center>
+
+    <center class="detail">
       <h1>ยินดีต้อนรับผู้ใช้งาน</h1>
-      <img id="imageuser" class="img-circle mb-2 mt-3" alt="Cinque Terre" width="70" height="70" />
+      <img
+        id="imageuser"
+        class="img-circle mb-2 mt-3"
+        alt="Cinque Terre"
+        width="70"
+        height="70"
+      />
       <div class="mb-2" id="idUser"></div>
       <h3 class="mt-3 mb-3" id="nameUser"></h3>
       <h2 id="textshow1">แชร์ให้เพื่อนหรือกลุ่ม !</h2>
@@ -284,11 +305,18 @@
     </center>
 
     <script>
+      function loaders() {
+        $(".load").hide();
+        $(".detail").show();
+      }
+
       $("#sharebtn").click(() => {
         shareTarget();
       });
 
       $(document).ready(() => {
+        $(".load").show();
+        $(".detail").hide();
         liff
           .init({
             liffId: "2000563749-2q45yrXp",
@@ -301,6 +329,7 @@
               liff
                 .getProfile()
                 .then((profile) => {
+                  setInterval(loaders, 3000);
                   const userName = profile.displayName;
                   const userId = profile.userId;
                   document.getElementById("nameUser").innerHTML = userName;
